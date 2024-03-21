@@ -5,12 +5,16 @@ metadata:
   labels:
     name: myingress
 spec:
+  tls:
+  - hosts:
+    - demo.imsny.world
+    secretName: sslcerts-web
   rules:
-  - host: fateh.maropost.com
+  - host: demo.imsny.world
     http:
       paths:
-      - pathType: Prefix
-        path: "/"
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: web-service
