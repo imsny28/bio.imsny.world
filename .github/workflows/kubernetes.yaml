@@ -74,7 +74,7 @@ jobs:
 
     - name: Deploy on the GKE
       run: |-
-        kubectl set image deployment/web nginx-api=imsny/demo-project:${{ env.TAG }}
+        kubectl set image deployment/web nginx-api=imsny/demo-project:${{ steps.meta.outputs.tags }}
 
     - name: Check Pods
       run: |-
