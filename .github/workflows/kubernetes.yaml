@@ -37,7 +37,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:latest
 
   setup-and-deploy:
-    needs: [create-image-and-push-to-dockerhub]
+    needs: [setup-build-publish-deploy]
 
     name: Setup and Deploy
     runs-on: ubuntu-latest
