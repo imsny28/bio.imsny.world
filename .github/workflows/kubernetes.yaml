@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  TAG: Monday
+
 jobs:
   setup-build-publish:
     name: Build and Publish
@@ -18,11 +21,6 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
-
-      - 
-        name: Get current date
-        id: date
-        run: echo "today={$(date +'%Y-%m-%d')}" >> $GITHUB_ENV
       -
         name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -41,7 +39,7 @@ jobs:
           push: true
           no-cache: true
           platforms: "linux/amd64"
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:${{GITHUB_ENV}}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:${{ env.TAG }}
 
   setup-and-deploy:
     needs: [setup-build-publish]
@@ -70,7 +68,7 @@ jobs:
 
     - name: Deploy on the GKE
       run: |-
-        kubectl set image deployment/web nginx-api=imsny/demo-project:${{GITHUB_ENV}}
+        kubectl set image deployment/web nginx-api=imsny/demo-project:${{ env.TAG }}
 
     - name: Check Pods
       run: |-
