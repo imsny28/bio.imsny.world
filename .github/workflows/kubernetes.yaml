@@ -39,7 +39,7 @@ jobs:
           push: true
           no-cache: true
           platforms: "linux/amd64"
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:${TAG}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:${env.TAG}
 
   setup-and-deploy:
     needs: [setup-build-publish]
@@ -68,7 +68,7 @@ jobs:
 
     - name: Deploy on the GKE
       run: |-
-        kubectl set image deployment/web nginx-api=imsny/demo-project:${TAG}
+        kubectl set image deployment/web nginx-api=imsny/demo-project:${env.TAG}
 
     - name: Check Pods
       run: |-
