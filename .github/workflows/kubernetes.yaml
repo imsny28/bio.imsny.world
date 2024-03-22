@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  TAG: $(date +%Y%m-%d-%H-%M)
+
 jobs:
   setup-build-publish:
     name: Build and Publish
@@ -36,7 +39,7 @@ jobs:
           push: true
           no-cache: true
           platforms: "linux/amd64"
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/demo-project:${TAG}
 
   setup-and-deploy:
     needs: [setup-build-publish]
@@ -65,7 +68,7 @@ jobs:
 
     - name: Deploy on the GKE
       run: |-
-        kubectl rollout restart deployment web
+        kubectl set image deployment/web nginx-api=imsny/demo-project:${TAG}
 
     - name: Check Pods
       run: |-
