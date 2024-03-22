@@ -4,9 +4,6 @@ on:
   push:
     branches: [ main ]
 
-env:
-  TAG: Monday
-
 jobs:
   setup-build-publish:
     name: Build and Publish
